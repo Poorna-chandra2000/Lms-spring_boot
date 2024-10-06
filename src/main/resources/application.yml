@@ -7,8 +7,8 @@ spring:
             client-id:
             client-secret:
           github:
-            client-id: ofujasldkfjalsf
-            client-secret: aldsjflaksdjfkl
+            client-id:
+            client-secret:
           facebook:
-            client-id: asldfjlaksfjlkasjfd
-            client-secret: asldfjalskdfkjalk
+            client-id:
+            client-secret:
