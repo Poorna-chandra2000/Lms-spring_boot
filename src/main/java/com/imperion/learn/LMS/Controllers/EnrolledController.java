@@ -10,6 +10,8 @@ import com.imperion.learn.LMS.Repositories.CourseRepository;
 import com.imperion.learn.LMS.Services.EnrolledService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,19 +33,24 @@ public class EnrolledController {
 
         return ResponseEntity.ok(enrolledService.getEnrolled(user));
     }
-    // Endpoint to enroll a user in a course
+    // Endpoint to enroll a user in a course must be logged in
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
     @PostMapping("/enroll/{courseId}")
     public ResponseEntity<EnrolledCourseDto> enrollUserInCourse(@PathVariable Long courseId) {
         return ResponseEntity.ok(enrolledService.enrollUserInCourse(courseId));
     }
 
     // Endpoint to get the list of course content for an enrolled course
+    @Secured({"ROLE_USER", "ROLE_ADMIN","ROLE_CREATOR"})
     @GetMapping("/course-content/{courseId}")
     public ResponseEntity<List<CourseContentDto>> getCourseContent(@PathVariable Long courseId) {
         List<CourseContentDto> courseContent = enrolledService.getCourseContent(courseId);
         return ResponseEntity.ok(courseContent);
     }
 
+
+    @Secured({"ROLE_USER", "ROLE_ADMIN","ROLE_CREATOR"})
+    @PreAuthorize("ADMIN")
     @GetMapping("/courses")
     public ResponseEntity<List<EnrolledCourseDto>> getEnrolledCourses() {
         List<EnrolledCourseDto> enrolledCourses = enrolledService.getEnrolledCoursesForCurrentUser();

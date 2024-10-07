@@ -38,7 +38,7 @@ public class WebSecurityConfig {//this is web security filter
 
     //keep public routs as public
     private  static final String[] publicRoutes={
-      "/api","/error","/auth/**","/home.html"//** means all routs of selected route is permitted or u can authenticate
+      "/api","api/allCategory","/error","/auth/**","/home.html"//** means all routs of selected route is permitted or u can authenticate
     };
 
 
@@ -50,12 +50,13 @@ public class WebSecurityConfig {//this is web security filter
                         auth.requestMatchers(publicRoutes).permitAll()//here make sure auth is permistted from Authsignuplogin controller(avoid 403 error)
                                 .requestMatchers("/users").permitAll()
                                 .requestMatchers("/session/**").permitAll()
+                                .requestMatchers(HttpMethod.GET,"api/course/**").permitAll()
                                 .requestMatchers(HttpMethod.GET,"/api/**").hasAuthority(POST_VIEW.name())
                                 .requestMatchers(HttpMethod.POST,"/api/**").hasAnyRole(ADMIN.name(),CREATOR.name())
                                 //to pass authorities for these authorities you have to map roles with permisions
                                 .requestMatchers(HttpMethod.POST,"/api/**").hasAnyAuthority(POST_CREATE.name())
                                 .requestMatchers(HttpMethod.GET,"/api/**").hasAuthority(POST_VIEW.name())
-                                .requestMatchers(HttpMethod.DELETE,"/api/**").hasAuthority(POST_DELETE.name())
+                                .requestMatchers(HttpMethod.DELETE,"/api/**").hasAnyRole(ADMIN.name(),CREATOR.name())
                                 .anyRequest().authenticated())//all other except public needs authentication
                 .csrf(csrfConfig->csrfConfig.disable())
                 .sessionManagement(sessionConfig->sessionConfig
