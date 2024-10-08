@@ -49,6 +49,7 @@ public class WebSecurityConfig {//this is web security filter
                 .authorizeHttpRequests(auth-> // if is use this below /post/** and permit all thn i can access everything without authentication"
                         auth.requestMatchers(publicRoutes).permitAll()//here make sure auth is permistted from Authsignuplogin controller(avoid 403 error)
                                 .requestMatchers("/users").permitAll()
+                                .requestMatchers(HttpMethod.GET,"/users").hasRole(ADMIN.name())
                                 .requestMatchers("/session/**").permitAll()
                                 .requestMatchers(HttpMethod.GET,"api/course/**").permitAll()
                                 //.requestMatchers(HttpMethod.GET,"/api/**").hasAuthority(POST_VIEW.name())
