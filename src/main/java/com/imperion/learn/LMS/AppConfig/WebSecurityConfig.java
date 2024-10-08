@@ -51,12 +51,12 @@ public class WebSecurityConfig {//this is web security filter
                                 .requestMatchers("/users").permitAll()
                                 .requestMatchers("/session/**").permitAll()
                                 .requestMatchers(HttpMethod.GET,"api/course/**").permitAll()
-                                .requestMatchers(HttpMethod.GET,"/api/**").hasAuthority(POST_VIEW.name())
-                                .requestMatchers(HttpMethod.POST,"/api/**").hasAnyRole(ADMIN.name(),CREATOR.name())
+                                //.requestMatchers(HttpMethod.GET,"/api/**").hasAuthority(POST_VIEW.name())
+                                .requestMatchers(HttpMethod.POST,"/api/category/**").hasAnyRole(ADMIN.name(),CREATOR.name())
                                 //to pass authorities for these authorities you have to map roles with permisions
-                                .requestMatchers(HttpMethod.POST,"/api/**").hasAnyAuthority(POST_CREATE.name())
+                                .requestMatchers(HttpMethod.POST,"/api/course/**").hasAnyAuthority(POST_CREATE.name(),POST_UPDATE.name(),POST_DELETE.name())
                                 .requestMatchers(HttpMethod.GET,"/api/**").hasAuthority(POST_VIEW.name())
-                                .requestMatchers(HttpMethod.DELETE,"/api/**").hasAnyRole(ADMIN.name(),CREATOR.name())
+                                .requestMatchers(HttpMethod.DELETE,"/api/**").hasAnyRole(ADMIN.name())
                                 .anyRequest().authenticated())//all other except public needs authentication
                 .csrf(csrfConfig->csrfConfig.disable())
                 .sessionManagement(sessionConfig->sessionConfig

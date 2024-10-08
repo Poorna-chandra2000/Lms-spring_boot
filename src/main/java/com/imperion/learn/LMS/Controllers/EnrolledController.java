@@ -34,7 +34,7 @@ public class EnrolledController {
         return ResponseEntity.ok(enrolledService.getEnrolled(user));
     }
     // Endpoint to enroll a user in a course must be logged in
-    @Secured({"ROLE_USER", "ROLE_ADMIN"})
+    @Secured({"ROLE_USER", "ROLE_ADMIN","ROLE_CREATOR"})
     @PostMapping("/enroll/{courseId}")
     public ResponseEntity<EnrolledCourseDto> enrollUserInCourse(@PathVariable Long courseId) {
         return ResponseEntity.ok(enrolledService.enrollUserInCourse(courseId));

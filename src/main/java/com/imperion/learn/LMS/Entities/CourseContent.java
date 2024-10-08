@@ -21,6 +21,8 @@ public class CourseContent {
 
     private String content;
 
+    private User author;
+
     @ManyToOne
     @JoinColumn(name = "course_id",nullable = false)
     @JsonIgnore

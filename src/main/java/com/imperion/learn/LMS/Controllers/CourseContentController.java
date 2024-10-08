@@ -5,6 +5,7 @@ import com.imperion.learn.LMS.Services.CourseContentService;
 import com.imperion.learn.LMS.Services.EnrolledService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,6 +24,7 @@ public class CourseContentController {
         return ResponseEntity.ok(courseContentService.createCourseContent(courseContentDto,courseId));
     }
 
+    @Secured({"ROLE_USER", "ROLE_ADMIN","ROLE_CREATOR"})
     @GetMapping("courseContent/{courseId}")
     public ResponseEntity<List<CourseContentDto>> getCourseContent(@PathVariable Long courseId) {
 

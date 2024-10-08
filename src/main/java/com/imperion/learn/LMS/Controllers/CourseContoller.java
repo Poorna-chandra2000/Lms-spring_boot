@@ -5,6 +5,7 @@ import com.imperion.learn.LMS.Services.CategoryService;
 import com.imperion.learn.LMS.Services.CourseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -41,5 +42,20 @@ public class CourseContoller {
     ResponseEntity<Boolean> delById(@PathVariable Long courseId){
         return ResponseEntity.ok(courseService.deleteCourseById(courseId));
     }
+
+    //Authors can get their courses in their dashboard
+    @GetMapping("/allCourse/author")
+    ResponseEntity<List<CourseDto>> getAllCourseByAuthor(){
+        return ResponseEntity.ok(courseService.getAllCourseByAuthor());
+    }
+
+
+    @DeleteMapping("/delCourseByAuthor/{courseId}")
+    @PreAuthorize("@postSecurity.isOwnerOfPost(#courseId)")
+    ResponseEntity<Boolean> delByAuthor(@PathVariable Long courseId){
+        return ResponseEntity.ok(courseService.delByAuthor(courseId));
+    }
+
+
 
 }

@@ -4,6 +4,7 @@ import com.imperion.learn.LMS.CustomException.ResourceNotFoundException;
 import com.imperion.learn.LMS.Entities.Category;
 import com.imperion.learn.LMS.Entities.Course;
 import com.imperion.learn.LMS.Entities.EnrolledCourse;
+import com.imperion.learn.LMS.Entities.User;
 import com.imperion.learn.LMS.Entities.enums.EnrollmentStatus;
 import com.imperion.learn.LMS.PayLoad.CourseDto;
 import com.imperion.learn.LMS.Repositories.CategoryRepositoy;
@@ -12,6 +13,7 @@ import com.imperion.learn.LMS.Repositories.EnrolledCourseRepository;
 import com.imperion.learn.LMS.Repositories.EnrolledRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,11 +33,15 @@ public class CourseServiceImpl implements CourseService{
     public CourseDto createCourse(Long categoryId, CourseDto courseDto) {
         Category category= categoryRepositoy.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("Category with Id:" + categoryId + " Not Found"));
 
+        User user=(User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
         Course courseEntity=modelMapper.map(courseDto,Course.class);
 
 
 
         courseEntity.setCategory(category);
+        courseEntity.setAuthor(user);
+        courseEntity.setEmail(user.getEmail());
         courseRepository.save(courseEntity);
 
         category.getCourses().add(courseEntity);
@@ -74,6 +80,31 @@ public class CourseServiceImpl implements CourseService{
             return true;
         }
         return false;
+    }
+
+    @Override
+    public Boolean delByAuthor(Long courseId) {
+        if(courseRepository.existsById(courseId)) {
+            courseRepository.deleteById(courseId);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public List<CourseDto> getAllCourseByAuthor() {
+        User user=(User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String currentAuthorEmail= user.getEmail();
+        List<Course> authorsCourse=courseRepository.findAllByEmailContaining(currentAuthorEmail);
+
+               return  authorsCourse.stream()
+                .map(course -> modelMapper.map(course,CourseDto.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public CourseDto getCourseById(Long courseId) {
+        return modelMapper.map(courseRepository.findById(courseId),CourseDto.class);
     }
 
 

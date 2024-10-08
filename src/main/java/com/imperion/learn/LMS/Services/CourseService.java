@@ -13,4 +13,10 @@ public interface CourseService {
     List<CourseDto> getCourseByCategoryId(Long categoryId);
 
     Boolean deleteCourseById(Long courseId);
+
+    Boolean delByAuthor(Long courseId);
+
+    List<CourseDto> getAllCourseByAuthor();
+
+    CourseDto getCourseById(Long courseId);
 }

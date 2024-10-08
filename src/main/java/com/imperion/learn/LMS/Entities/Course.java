@@ -24,6 +24,10 @@ public class Course {
 
     private String description;
 
+    private User author;
+
+    private String email;
+
     private String image;
 
     @ManyToOne
