@@ -16,6 +16,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+
 import static com.imperion.learn.LMS.Entities.enums.Permission.*;
 import static com.imperion.learn.LMS.Entities.enums.Role.ADMIN;
 import static com.imperion.learn.LMS.Entities.enums.Role.CREATOR;
@@ -42,6 +43,8 @@ public class WebSecurityConfig {//this is web security filter
     };
 
 
+
+
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 
@@ -52,6 +55,7 @@ public class WebSecurityConfig {//this is web security filter
                                 .requestMatchers(HttpMethod.GET,"/users").hasRole(ADMIN.name())
                                 .requestMatchers("/session/**").permitAll()
                                 .requestMatchers(HttpMethod.GET,"api/course/**").permitAll()
+                                .requestMatchers(HttpMethod.GET,"api/category/**").permitAll()
                                 //.requestMatchers(HttpMethod.GET,"/api/**").hasAuthority(POST_VIEW.name())
                                 .requestMatchers(HttpMethod.POST,"/api/category/**").hasAnyRole(ADMIN.name(),CREATOR.name())
                                 //to pass authorities for these authorities you have to map roles with permisions

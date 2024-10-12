@@ -4,6 +4,7 @@ import com.imperion.learn.LMS.Entities.*;
 import com.imperion.learn.LMS.Entities.enums.EnrollmentStatus;
 import com.imperion.learn.LMS.PayLoad.CourseContentDto;
 import com.imperion.learn.LMS.PayLoad.EnrolledCourseDto;
+import com.imperion.learn.LMS.PayLoad.EnrolledCourseWithStatusDto;
 import com.imperion.learn.LMS.PayLoad.EnrolledDto;
 import com.imperion.learn.LMS.Repositories.*;
 import jakarta.persistence.EntityNotFoundException;
@@ -38,6 +39,8 @@ public class EnrolledServiceImpl implements EnrolledService{
                 .orElseGet(() -> {
                     Enrolled enrolled = new Enrolled();
                     enrolled.setUser(user);
+                    enrolled.setUsername(user.getName());
+                    enrolled.setEmail(user.getEmail());
                     return enrolledRepository.save(enrolled);
                 });
     }
@@ -110,6 +113,21 @@ public class EnrolledServiceImpl implements EnrolledService{
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public List<EnrolledCourseWithStatusDto> getEnrolledCoursesWithStatusForCurrentUser() {
+        Enrolled enrolled = getOrCreateEnrolledForCurrentUser();
+
+        // Map each EnrolledCourse to EnrolledCourseWithStatusDto
+        return enrolled.getEnrolledCourses().stream()
+                .map(enrolledCourse -> {
+                    EnrolledCourseWithStatusDto dto = new EnrolledCourseWithStatusDto();
+                    dto.setCourseId(enrolledCourse.getCourse().getId());
+                    dto.setCourseTitle(enrolledCourse.getCourse().getCoursename());
+                    dto.setStatus(enrolledCourse.getStatus());
+                    return dto;
+                })
+                .collect(Collectors.toList());
+    }
 
 
 }

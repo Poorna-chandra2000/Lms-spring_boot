@@ -1,6 +1,7 @@
 package com.imperion.learn.LMS.Entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,6 +24,9 @@ public class Enrolled {
     @JoinColumn(name = "user_id",
     referencedColumnName = "id",nullable = false)
     private User user;
+
+    private String username;
+    private String email;
 
     //this enrolled section can have many enrolled course
     @OneToMany(mappedBy = "enrolled",cascade = CascadeType.ALL,orphanRemoval = true)

@@ -5,6 +5,7 @@ import com.imperion.learn.LMS.Entities.EnrolledCourse;
 import com.imperion.learn.LMS.Entities.User;
 import com.imperion.learn.LMS.PayLoad.CourseContentDto;
 import com.imperion.learn.LMS.PayLoad.EnrolledCourseDto;
+import com.imperion.learn.LMS.PayLoad.EnrolledCourseWithStatusDto;
 import com.imperion.learn.LMS.PayLoad.EnrolledDto;
 
 import java.util.List;
@@ -21,4 +22,6 @@ public interface EnrolledService {
     EnrolledCourseDto enrollUserInCourse(Long courseId);
 
     List<EnrolledCourseDto> getEnrolledCoursesForCurrentUser();
+
+    List<EnrolledCourseWithStatusDto> getEnrolledCoursesWithStatusForCurrentUser();
 }

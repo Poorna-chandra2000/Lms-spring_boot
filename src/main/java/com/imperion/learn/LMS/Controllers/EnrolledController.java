@@ -3,10 +3,9 @@ package com.imperion.learn.LMS.Controllers;
 import com.imperion.learn.LMS.Entities.Course;
 import com.imperion.learn.LMS.Entities.EnrolledCourse;
 import com.imperion.learn.LMS.Entities.User;
-import com.imperion.learn.LMS.PayLoad.CourseContentDto;
-import com.imperion.learn.LMS.PayLoad.EnrolledCourseDto;
-import com.imperion.learn.LMS.PayLoad.EnrolledDto;
+import com.imperion.learn.LMS.PayLoad.*;
 import com.imperion.learn.LMS.Repositories.CourseRepository;
+import com.imperion.learn.LMS.Services.EnrolledCourseService;
 import com.imperion.learn.LMS.Services.EnrolledService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +24,7 @@ public class EnrolledController {
 
     private final EnrolledService enrolledService;
 
+    private final EnrolledCourseService enrolledCourseService;
     private final CourseRepository courseRepository;
 
     @GetMapping
@@ -57,5 +57,17 @@ public class EnrolledController {
         return ResponseEntity.ok(enrolledCourses);
     }
 
+    //to get users who are enrolled in this course
+    @Secured({"ROLE_ADMIN","ROLE_CREATOR"})
+    @GetMapping("/users-enrolled/{courseId}")
+    public  ResponseEntity<List<UserDto>> getUsersEnrolledInCourse(@PathVariable Long courseId){
+        return ResponseEntity.ok(enrolledCourseService.getUsersEnrolledInCourse(courseId));
+    }
+
+     ///to get the status of courses like enrolled completed
+    @GetMapping("/status")
+    public ResponseEntity<List<EnrolledCourseWithStatusDto>> getEnrolledCoursesWithStatusForCurrentUser(){
+        return ResponseEntity.ok(enrolledService.getEnrolledCoursesWithStatusForCurrentUser());
+    }
 
 }

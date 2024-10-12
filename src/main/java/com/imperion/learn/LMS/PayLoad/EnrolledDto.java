@@ -18,7 +18,10 @@ public class EnrolledDto {
     private Long id;
 
     @JsonIgnore
-    private User user;
+    private UserDto user;
+
+    private String username;
+    private String email;
 
 
     private List<EnrolledCourseDto> enrolledCourses;
