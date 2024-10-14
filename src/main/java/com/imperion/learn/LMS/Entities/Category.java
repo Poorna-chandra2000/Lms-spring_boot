@@ -13,7 +13,7 @@ import java.util.Objects;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Category {
+public class Category extends AuditableEntity{
 
 
     @Id
@@ -38,5 +38,25 @@ public class Category {
     @Override
     public int hashCode() {
         return Objects.hash(Id, coursesCategory, courses);
+    }
+
+    //now inorder for auditing
+    //we need to create auditable class with MappedSuperClass annot and entity listener and extend it here
+
+    //also add persist keep it untouched your wish
+    //enable jpa auditing anot in congig class
+    @PrePersist
+    void beforeSave(){
+
+    }
+
+    @PreRemove
+    void beforeDelete(){
+
+    }
+
+    @PreUpdate
+    void beforeUpdate(){
+
     }
 }

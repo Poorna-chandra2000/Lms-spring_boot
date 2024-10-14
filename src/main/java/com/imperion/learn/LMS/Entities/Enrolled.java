@@ -13,7 +13,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Enrolled {
+public class Enrolled extends AuditableEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,4 +31,24 @@ public class Enrolled {
     //this enrolled section can have many enrolled course
     @OneToMany(mappedBy = "enrolled",cascade = CascadeType.ALL,orphanRemoval = true)
     private List<EnrolledCourse> enrolledCourses=new ArrayList<>();
+
+    //now inorder for auditing
+    //we need to create auditable class with MappedSuperClass annot and entity listener and extend it here
+
+    //also add persist keep it untouched your wish
+    //enable jpa auditing anot in congig class
+    @PrePersist
+    void beforeSave(){
+
+    }
+
+    @PreRemove
+    void beforeDelete(){
+
+    }
+
+    @PreUpdate
+    void beforeUpdate(){
+
+    }
 }
