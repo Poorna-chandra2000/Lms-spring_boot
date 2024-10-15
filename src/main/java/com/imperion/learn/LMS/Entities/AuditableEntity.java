@@ -28,7 +28,7 @@ public class AuditableEntity {
     //and Audit aware class
     @CreatedDate
         //if you dont wanna change local date time just mak eit nullable updatable null
-        @Column(nullable = false, updatable = false)
+        @Column(nullable = true, updatable = false)
     LocalDateTime createdAt;
 
     @LastModifiedDate

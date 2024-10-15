@@ -84,7 +84,8 @@ deploy.env=production
 - **GET** `/api/enrolled/course-content/{courseId}` - Get content for enrolled courses
 - **GET** `/api/enrolled/courses` - Get a list of all enrolled courses (Admin)
 - **GET** `/api/enrolled/users-enrolled/{courseId}` - Get users enrolled in a specific course (Admin & Creator)
-- **GET** `/api/enrolled/status` - Get status (enrolled, completed) of courses for the current user
+- **GET** `/api/enrolled/status` - Get status (enrolled, completed) of courses for the current user 
+- **POST** `/api/enrolled/complete/{courseId}`-Enrolled User can mark course as complete after course completion
 
 ### User Management
 

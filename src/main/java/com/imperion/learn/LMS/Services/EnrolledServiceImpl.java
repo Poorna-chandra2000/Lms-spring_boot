@@ -130,5 +130,29 @@ public class EnrolledServiceImpl implements EnrolledService{
     }
 
 
+
+        // Mark a course as complete for the current user
+        public void markCourseAsComplete(Long courseId) {
+            Enrolled enrolled = getOrCreateEnrolledForCurrentUser();
+
+            // Check if the user is enrolled in the course
+            EnrolledCourse enrolledCourse = enrolled.getEnrolledCourses().stream()
+                    .filter(ec -> ec.getCourse().getId().equals(courseId) && ec.getStatus() == EnrollmentStatus.ENROLLED)
+                    .findFirst()
+                    .orElseThrow(() -> new RuntimeException("You are not enrolled in this course or course not found."));
+
+            // Mark the course as complete
+            enrolledCourse.setStatus(EnrollmentStatus.COMPLETED);
+
+            // Save the updated enrolled course status
+            enrolledCourseRepository.save(enrolledCourse);
+        }
+
+//one more method is just keep the user details in enrolled courses too
+    //later just findbyuser
+    //update or patch method to just update couse status
+
+
+
 }
 

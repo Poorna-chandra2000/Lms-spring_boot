@@ -24,4 +24,6 @@ public interface EnrolledService {
     List<EnrolledCourseDto> getEnrolledCoursesForCurrentUser();
 
     List<EnrolledCourseWithStatusDto> getEnrolledCoursesWithStatusForCurrentUser();
+
+    void markCourseAsComplete(Long courseId);
 }

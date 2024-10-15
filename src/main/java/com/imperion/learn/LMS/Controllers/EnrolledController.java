@@ -70,4 +70,12 @@ public class EnrolledController {
         return ResponseEntity.ok(enrolledService.getEnrolledCoursesWithStatusForCurrentUser());
     }
 
+    // Endpoint to mark a course as complete
+    @Secured({"ROLE_USER", "ROLE_ADMIN", "ROLE_CREATOR"})
+    @PostMapping("/complete/{courseId}")
+    public ResponseEntity<String> markCourseAsComplete(@PathVariable Long courseId) {
+        enrolledService.markCourseAsComplete(courseId);
+        return ResponseEntity.ok("Course completed successfully.");
+    }
+
 }
